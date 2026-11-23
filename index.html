@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پنل خدمات مجازی | خرید فالوور، ممبر، اینترنت و شارژ</title>
+  <!-- فونت فارسی وزیرمتن از گوگل فونت -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- کتابخانه Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'sans-serif'],
+          },
+          colors: {
+            brandRed: '#ef4444',
+            brandCrimson: '#b91c1c',
+            brandAmber: '#f59e0b',
+            brandGold: '#facc15',
+            darkBg: '#0c080a',
+            cardSurface: '#181014',
+          },
+          animation: {
+            'float-slow': 'floatSlow 14s ease-in-out infinite',
+            'float-reverse': 'floatReverse 18s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 8s ease-in-out infinite',
+            'spin-very-slow': 'spin 45s linear infinite',
+            'shimmer': 'shimmer 4s linear infinite',
+          },
+          keyframes: {
+            floatSlow: {
+              '0%, 100%': { transform: 'translate3d(0, 0, 0) rotate(0deg)' },
+              '33%': { transform: 'translate3d(25px, -30px, 0) rotate(6deg)' },
+              '66%': { transform: 'translate3d(-20px, 20px, 0) rotate(-5deg)' },
+            },
+            floatReverse: {
+              '0%, 100%': { transform: 'translate3d(0, 0, 0) scale(1)' },
+              '50%': { transform: 'translate3d(-35px, -25px, 0) scale(1.08)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.35', transform: 'scale(1)' },
+              '50%': { opacity: '0.65', transform: 'scale(1.12)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* استایل‌های سفارشی برای افکت‌های شیشه‌ای، پس‌زمینه شناور و اسکرول‌بار */
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background-color: #0b0608;
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+
+    /* اسکرول بار سفارشی زرد و قرمز */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #12090c;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #ef4444, #f59e0b);
+      border-radius: 9999px;
+    }
+
+    /* افکت شیشه‌ای مدرن */
+    .glass-panel {
+      background: rgba(26, 15, 20, 0.65);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(250, 204, 21, 0.16);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    }
+
+    .glass-card {
+      background: linear-gradient(145deg, rgba(34, 19, 25, 0.78), rgba(18, 10, 14, 0.88));
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(239, 68, 68, 0.22);
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  border-color 0.5s ease,
+                  box-shadow 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(250, 204, 21, 0.55);
+      box-shadow: 0 18px 40px -10px rgba(239, 68, 68, 0.32), 0 0 24px rgba(250, 204, 21, 0.14);
+    }
+
+    /* افکت کارت بانکی سه‌بعدی و درخشان */
+    .bank-card-gradient {
+      background: radial-gradient(circle at 15% 20%, rgba(250, 204, 21, 0.38) 0%, transparent 45%),
+                  radial-gradient(circle at 85% 80%, rgba(220, 38, 38, 0.55) 0%, transparent 55%),
+                  linear-gradient(135deg, #2a0d12 0%, #451018 45%, #3d2208 100%);
+      box-shadow: 0 25px 60px -15px rgba(220, 38, 38, 0.45),
+                  inset 0 1px 1px rgba(255, 237, 179, 0.45);
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.8s ease;
+    }
+
+    .bank-card-gradient:hover {
+      transform: translateY(-4px) scale(1.015);
+      box-shadow: 0 32px 70px -12px rgba(245, 158, 11, 0.42),
+                  inset 0 1px 2px rgba(254, 240, 138, 0.7);
+    }
+
+    /* انیمیشن اسلوموشن ظاهر شدن هنگام اسکرول */
+    .reveal-slow {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal-slow.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* مخفی کردن اسکرول بار تب‌های موبایل */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen relative selection:bg-amber-400 selection:text-red-950">
+
+  <!-- =========================================================
+       پس‌زمینه متحرک، زنده و شناور با اورب‌ها و SVGهای انتزاعی
+  ========================================================= -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10" aria-hidden="true">
+    <!-- شبکه هندسی ظریف پس‌زمینه -->
+    <svg class="absolute inset-0 w-full h-full opacity-[0.07]" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="cyber-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+          <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#facc15" stroke-width="0.7" />
+          <circle cx="0" cy="0" r="1.5" fill="#ef4444" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#cyber-grid)" />
+    </svg>
+
+    <!-- اورب‌های نوری زرد و قرمز در حال حرکت اسلوموشن -->
+    <div class="absolute -top-28 -right-24 w-[28rem] h-[28rem] rounded-full bg-red-600/25 blur-[120px] animate-float-slow"></div>
+    <div class="absolute top-1/3 -left-32 w-[32rem] h-[32rem] rounded-full bg-amber-500/20 blur-[130px] animate-float-reverse"></div>
+    <div class="absolute bottom-10 right-1/4 w-[26rem] h-[26rem] rounded-full bg-rose-600/20 blur-[120px] animate-pulse-glow"></div>
+    <div class="absolute -bottom-24 left-12 w-[24rem] h-[24rem] rounded-full bg-yellow-400/15 blur-[110px] animate-float-slow"></div>
+
+    <!-- اشکال SVG شناور در نقاط مختلف صفحه -->
+    <!-- شکل 1: حلقه هندسی چرخان بالا راست -->
+    <svg class="absolute top-16 right-8 w-36 h-36 text-amber-400/20 animate-spin-very-slow hidden sm:block" viewBox="0 0 200 200" fill="none">
+      <circle cx="100" cy="100" r="85" stroke="currentColor" stroke-width="1.5" stroke-dasharray="10 8" />
+      <circle cx="100" cy="100" r="60" stroke="#ef4444" stroke-width="1.2" stroke-dasharray="4 6" />
+      <polygon points="100,25 165,138 35,138" stroke="currentColor" stroke-width="1" fill="none" />
+    </svg>
+
+    <!-- شکل 2: موج انتزاعی شناور سمت چپ -->
+    <svg class="absolute top-1/4 left-6 w-44 h-44 text-red-500/20 animate-float-slow" viewBox="0 0 160 160" fill="none">
+      <path d="M20 80C20 46.8629 46.8629 20 80 20C113.137 20 140 46.8629 140 80C140 113.137 113.137 140 80 140" stroke="url(#gradFloat1)" stroke-width="2.5" stroke-linecap="round" />
+      <path d="M40 80C40 57.9086 57.9086 40 80 40C102.091 40 120 57.9086 120 80" stroke="#facc15" stroke-width="2" stroke-linecap="round" />
+      <circle cx="80" cy="80" r="8" fill="#f59e0b" fill-opacity="0.4" />
+      <defs>
+        <linearGradient id="gradFloat1" x1="20" y1="20" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#ef4444" />
+          <stop offset="1" stop-color="#facc15" />
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <!-- شکل 3: چندضلعی شناور میانه صفحه -->
+    <svg class="absolute top-2/3 right-10 w-32 h-32 text-yellow-400/20 animate-float-reverse" viewBox="0 0 120 120" fill="none">
+      <rect x="25" y="25" width="70" height="70" rx="18" transform="rotate(22 60 60)" stroke="currentColor" stroke-width="1.8" />
+      <rect x="38" y="38" width="44" height="44" rx="12" transform="rotate(-15 60 60)" stroke="#ef4444" stroke-width="1.5" />
+    </svg>
+
+    <!-- شکل 4: ستاره و خطوط نورانی پایین چپ -->
+    <svg class="absolute bottom-24 left-12 w-28 h-28 text-amber-300/20 animate-float-slow" viewBox="0 0 100 100" fill="none">
+      <path d="M50 5L58 42L95 50L58 58L50 95L42 58L5 50L42 42L50 5Z" stroke="currentColor" stroke-width="1.5" fill="rgba(239,68,68,0.08)" />
+    </svg>
+  </div>
+
+  <!-- =========================================================
+       نوار ناوبری بالایی (Header)
+  ========================================================= -->
+  <header class="sticky top-0 z-40 border-b border-amber-400/15 bg-[#0e070a]/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+      <!-- لوگو و عنوان سایت -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-red-600 via-rose-600 to-amber-500 p-0.5 shadow-lg shadow-red-600/30 group-hover:scale-105 transition-transform duration-500">
+          <div class="w-full h-full bg-[#140a0e] rounded-[14px] flex items-center justify-center">
+            <!-- SVG لوگوی اختصاصی پنل -->
+            <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none">
+              <path d="M16 3L27 9.5V22.5L16 29L5 22.5V9.5L16 3Z" stroke="url(#logoGrad)" stroke-width="2.2" />
+              <path d="M16 9L22 15.5L16 23L10 15.5L16 9Z" fill="url(#logoGrad)" />
+              <defs>
+                <linearGradient id="logoGrad" x1="5" y1="3" x2="27" y2="29" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#facc15" />
+                  <stop offset="1" stop-color="#ef4444" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-xl font-black tracking-tight bg-gradient-to-l from-amber-300 via-yellow-400 to-red-500 bg-clip-text text-transparent">
+            پنل خدمات مجازی
+          </h1>
+          <p class="text-[11px] sm:text-xs text-amber-100/60">تحویل سریع، مطمئن و پشتیبانی مستقیم</p>
+        </div>
+      </a>
+
+      <!-- دکمه ارتباط سریع در روبیکا -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="#services-section" class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-amber-100/80 hover:text-amber-300 hover:bg-white/5 transition-colors">
+          <span>لیست خدمات</span>
+        </a>
+        <button onclick="copyText('@AMIR_GHADIM22', 'آیدی روبیکا کپی شد!')" class="inline-flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-bold text-xs sm:text-sm shadow-lg shadow-red-600/25 active:scale-95 transition-all">
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+          </svg>
+          <span>پشتیبانی روبیکا</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       بخش اصلی (Main Content)
+  ========================================================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-24">
+
+    <!-- بخش اول: کارت بانکی و راهنمای خرید -->
+    <section aria-label="اطلاعات واریز و کارت بانکی" class="flex flex-col items-center justify-center mb-14 sm:mb-20">
+      
+      <!-- کارت بانکی مدرن با افکت سه‌بعدی -->
+      <div class="w-full max-w-[440px] relative group">
+        <!-- هاله نوری پشت کارت -->
+        <div class="absolute -inset-1.5 bg-gradient-to-r from-red-600 via-amber-500 to-yellow-400 rounded-[28px] blur-xl opacity-45 group-hover:opacity-75 transition-opacity duration-700"></div>
+        
+        <div class="relative bank-card-gradient rounded-[26px] p-6 sm:p-7 border border-amber-300/35 overflow-hidden select-none">
+          <!-- پترن خطوط موجی داخل کارت -->
+          <svg class="absolute inset-0 w-full h-full opacity-20 pointer-events-none" viewBox="0 0 400 250" fill="none">
+            <circle cx="350" cy="40" r="120" stroke="#facc15" stroke-width="1.2" />
+            <circle cx="350" cy="40" r="85" stroke="#ef4444" stroke-width="1.2" />
+            <path d="M-20 210 C 90 140, 240 260, 420 160" stroke="#fde047" stroke-width="1.5" />
+          </svg>
+
+          <!-- ردیف بالای کارت: نام بانک و لوگو -->
+          <div class="relative flex items-center justify-between mb-6 sm:mb-8">
+            <div class="flex items-center gap-3">
+              <!-- لوگوی SVG اختصاصی بانک کشاورزی (طرح سنبله و هندسی) -->
+              <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400/25 to-red-600/25 border border-amber-300/40 flex items-center justify-center shadow-inner">
+                <svg class="w-7 h-7 text-amber-300" viewBox="0 0 36 36" fill="none">
+                  <path d="M18 4C18 4 12 10 12 17C12 21.5 14.8 25 18 26.5C21.2 25 24 21.5 24 17C24 10 18 4 18 4Z" stroke="currentColor" stroke-width="2" fill="rgba(250,204,21,0.18)" />
+                  <path d="M18 9V31" stroke="#fde047" stroke-width="2" stroke-linecap="round" />
+                  <path d="M18 15L13.5 11.5M18 20L22.5 16.5M18 24L13.5 20.5" stroke="#fde047" stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div>
+                <span class="block text-xs text-amber-200/75 font-medium">بانک عامل</span>
+                <span class="text-lg sm:text-xl font-black text-amber-300 tracking-wide">بانک کشاورزی</span>
+              </div>
+            </div>
+
+            <!-- تراشه هوشمند (EMV Chip) و آیکون پرداخت بدون تماس -->
+            <div class="flex items-center gap-2.5">
+              <svg class="w-6 h-6 text-amber-200/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" d="M8.5 14.5A4 4 0 0 1 8.5 9.5M12 17a7.5 7.5 0 0 1 0-10M15.5 19.5a11 11 0 0 1 0-15" />
+              </svg>
+              <div class="w-11 h-8 rounded-lg bg-gradient-to-tr from-amber-500 via-yellow-300 to-amber-200 border border-yellow-100/60 p-1.5 flex flex-col justify-between shadow-md">
+                <div class="w-full h-[1px] bg-amber-900/40"></div>
+                <div class="w-full h-[1px] bg-amber-900/40"></div>
+                <div class="w-full h-[1px] bg-amber-900/40"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- شماره کارت ۴ رقم ۴ رقم -->
+          <div class="relative my-5 sm:my-6">
+            <div class="flex items-center justify-between gap-2 bg-black/35 backdrop-blur-md border border-amber-300/25 rounded-2xl px-3.5 py-3">
+              <div dir="ltr" class="flex items-center justify-between w-full font-mono text-lg sm:text-2xl font-extrabold tracking-wider text-white drop-shadow">
+                <span>6037</span>
+                <span>7018</span>
+                <span>0134</span>
+                <span>6450</span>
+              </div>
+              <button onclick="copyText('6037701801346450', 'شماره کارت با موفقیت کپی شد!')" title="کپی شماره کارت" class="shrink-0 p-2 rounded-xl bg-amber-400/20 hover:bg-amber-400 text-amber-200 hover:text-red-950 transition-all active:scale-90">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- ردیف پایین کارت: نام صاحب کارت -->
+          <div class="relative flex items-end justify-between pt-1">
+            <div>
+              <span class="block text-[11px] text-amber-200/70 mb-0.5">به نام</span>
+              <span class="text-base sm:text-lg font-extrabold text-white tracking-wide">مهدی خاور</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-xs font-semibold text-amber-300/90 bg-red-950/50 border border-amber-400/25 px-3 py-1 rounded-full">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+              <span>کارت تایید شده</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- باکس راهنمای خرید زیر کارت و خارج از کارت -->
+      <div class="w-full max-w-2xl mt-7 glass-panel rounded-3xl p-5 sm:p-6 border border-amber-400/30 text-center relative overflow-hidden">
+        <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-red-600 via-amber-400 to-red-600"></div>
+        
+        <div class="flex flex-col items-center gap-3.5">
+          <div class="inline-flex items-center gap-2 text-amber-300 text-xs sm:text-sm font-bold bg-red-500/15 border border-red-500/30 px-3.5 py-1 rounded-full">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="16" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            <span>راهنمای ثبت سفارش و دریافت آنی</span>
+          </div>
+
+          <p class="text-sm sm:text-base leading-7 text-amber-50/95 font-medium">
+            برای خرید محصول مبلغ را به شماره کارت واریز کنید و بعد رسید خود را به ایدی زیر در روبیکا بفرستید:
+          </p>
+
+          <!-- باکس آیدی روبیکا + دکمه کپی -->
+          <div class="flex flex-wrap items-center justify-center gap-3 mt-1 w-full sm:w-auto">
+            <div dir="ltr" class="flex items-center gap-2.5 bg-[#12080b] border border-amber-400/40 px-4 py-2.5 rounded-2xl shadow-inner">
+              <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 12a4 4 0 1 0-8 0 4 4 0 0 0 8 0zm0 0v1.5a2.5 2.5 0 0 0 5 0V12a9 9 0 1 0-9 9m4.5-1.206a8.959 8.959 0 0 1-4.5 1.207" />
+              </svg>
+              <span class="font-mono text-base sm:text-lg font-extrabold text-amber-300 tracking-wide select-all">@AMIR_GHADIM22</span>
+            </div>
+
+            <button onclick="copyText('@AMIR_GHADIM22', 'آیدی روبیکا (@AMIR_GHADIM22) کپی شد!')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-red-950 font-black text-sm shadow-lg shadow-amber-500/25 active:scale-95 transition-all cursor-pointer">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>کپی آیدی</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         نوار فیلتر سریع دسته‌بندی‌ها
+    ========================================================= -->
+    <section id="services-section" class="mb-10">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2.5">
+            <span class="w-2.5 h-7 rounded-full bg-gradient-to-b from-amber-400 to-red-600 inline-block"></span>
+            <span>تعرفه خدمات و محصولات</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-amber-100/65 mt-1">دسته‌بندی مورد نظر خود را انتخاب کنید یا روی دکمه خرید هر محصول بزنید</p>
+        </div>
+      </div>
+
+      <!-- دکمه‌های فیلتر دسته‌بندی -->
+      <div id="category-tabs" class="flex items-center gap-2.5 overflow-x-auto no-scrollbar pb-2">
+        <!-- تب‌ها توسط جاوااسکریپت رندر می‌شوند -->
+      </div>
+    </section>
+
+    <!-- =========================================================
+         کانتینر اصلی بخش‌های محصولات (تولید داینامیک و منظم)
+    ========================================================= -->
+    <div id="catalog-container" class="space-y-14">
+      <!-- بخش‌های اینستاگرام، ایتا، روبیکا، تلگرام، اینترنت و شارژها اینجا رندر می‌شوند -->
+    </div>
+
+  </main>
+
+  <!-- =========================================================
+       فوتر سایت (Footer)
+  ========================================================= -->
+  <footer class="border-t border-amber-400/15 bg-[#090406]/90 backdrop-blur-lg py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-right">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-red-500 to-amber-400"></span>
+        <span class="text-sm font-bold text-amber-100/90">پنل خدمات مجازی و شارژ مستقیم</span>
+      </div>
+      <p class="text-xs text-amber-100/55">
+        جهت ثبت سفارش و ارسال فیش واریزی با آیدی روبیکا
+        <button onclick="copyText('@AMIR_GHADIM22', 'آیدی روبیکا کپی شد!')" dir="ltr" class="text-amber-400 font-mono font-bold hover:underline mx-1">@AMIR_GHADIM22</button>
+        در ارتباط باشید.
+      </p>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       پاپ‌آپ (Modal) خرید محصول
+  ========================================================= -->
+  <div id="purchase-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-opacity duration-300 opacity-0" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <!-- پس‌زمینه قابل کلیک برای بستن -->
+    <div class="absolute inset-0" onclick="closeModal()"></div>
+
+    <!-- بدنه مودال -->
+    <div id="modal-box" class="relative w-full max-w-lg glass-panel rounded-[28px] border border-amber-400/40 p-6 sm:p-7 shadow-2xl transform scale-95 transition-transform duration-300 overflow-hidden">
+      <!-- نوار گرادیان بالای پاپ‌آپ -->
+      <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-red-600 via-amber-400 to-red-600"></div>
+
+      <!-- هدر پاپ‌آپ -->
+      <div class="flex items-center justify-between pb-4 border-b border-white/10">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 to-amber-500 flex items-center justify-center text-white shadow">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 0 0-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+          </div>
+          <h3 id="modal-title" class="text-lg sm:text-xl font-black text-white">تکمیل خرید محصول</h3>
+        </div>
+        <button onclick="closeModal()" aria-label="بستن پنجره" class="p-2 rounded-xl bg-white/5 hover:bg-red-500/20 text-amber-100/70 hover:text-red-400 transition-colors">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- جزئیات محصول انتخاب شده -->
+      <div class="my-5 rounded-2xl bg-gradient-to-l from-red-950/70 to-amber-950/40 border border-amber-400/25 p-4">
+        <div class="flex items-center justify-between gap-2 mb-2">
+          <span class="text-xs text-amber-200/75">دسته‌بندی سرویس:</span>
+          <span id="modal-category" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300">اینستاگرام</span>
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <span class="text-xs text-amber-200/75">عنوان محصول:</span>
+          <span id="modal-product-name" class="text-sm sm:text-base font-extrabold text-white text-left">فالوور ایرانی (هزار تا)</span>
+        </div>
+        <div class="pt-3 border-t border-white/10 flex items-center justify-between">
+          <span class="text-xs sm:text-sm font-bold text-amber-100/90">مبلغ قابل واریز:</span>
+          <span id="modal-product-price" class="text-lg sm:text-xl font-black text-amber-400">190 هزار تومان</span>
+        </div>
+      </div>
+
+      <!-- اطلاعات واریز (شماره کارت و نام صاحب کارت) -->
+      <div class="space-y-3.5">
+        <div class="rounded-2xl bg-[#11080b] border border-red-500/30 p-4">
+          <div class="flex items-center justify-between text-xs text-amber-100/70 mb-2">
+            <span>شماره کارت (بانک کشاورزی)</span>
+            <span class="font-bold text-amber-300">به نام: مهدی خاور</span>
+          </div>
+          <div class="flex items-center justify-between gap-2 bg-white/5 rounded-xl px-3 py-2.5 border border-white/10">
+            <span dir="ltr" class="font-mono text-base sm:text-lg font-black text-white tracking-wider">6037 7018 0134 6450</span>
+            <button onclick="copyText('6037701801346450', 'شماره کارت کپی شد!')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white text-xs font-bold shadow active:scale-95 transition-all">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>کپی کارت</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- اطلاعات آیدی روبیکا برای ارسال رسید -->
+        <div class="rounded-2xl bg-[#11080b] border border-amber-400/30 p-4">
+          <p class="text-xs text-amber-100/80 mb-2.5 leading-5">
+            پس از واریز مبلغ، تصویر رسید را به آیدی روبیکا زیر ارسال نمایید:
+          </p>
+          <div class="flex items-center justify-between gap-2 bg-white/5 rounded-xl px-3 py-2.5 border border-white/10">
+            <span dir="ltr" class="font-mono text-base sm:text-lg font-black text-amber-300">@AMIR_GHADIM22</span>
+            <button onclick="copyText('@AMIR_GHADIM22', 'آیدی روبیکا کپی شد!')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-red-950 text-xs font-black shadow active:scale-95 transition-all">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>کپی آیدی</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- دکمه بستن پایین مودال -->
+      <div class="mt-6">
+        <button onclick="closeModal()" class="w-full py-3 rounded-2xl bg-white/10 hover:bg-white/15 text-amber-100 font-bold text-sm transition-colors">
+          بستن پنجره
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       اعلان کپی شدن (Toast Notification)
+  ========================================================= -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] pointer-events-none opacity-0 translate-y-4 transition-all duration-300">
+    <div class="flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-gradient-to-r from-red-600 to-amber-500 text-white font-bold text-xs sm:text-sm shadow-2xl border border-yellow-200/40">
+      <svg class="w-5 h-5 text-yellow-200 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span id="toast-message">در حافظه کپی شد!</span>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       اسکریپت داده‌ها، رندر SVGها و تعاملات
+  ========================================================= -->
+  <script>
+    // آیکون‌های SVG اختصاصی برای هر دسته‌بندی (بدون استفاده از ایموجی)
+    const categoryIcons = {
+      instagram: `
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>`,
+      eitaa: `
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01" />
+        </svg>`,
+      rubika: `
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 21 7 21 17 12 22 3 17 3 7 12 2"></polygon>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+          <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        </svg>`,
+      telegram: `
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>`,
+      internet: `
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>`,
+      irancell: `
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+          <path d="M9 2v4h6V2"></path>
+          <path d="M13 11l-3 5h4l-2 4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>`,
+      mci: `
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M2 20h.01"></path>
+          <path d="M7 20v-4"></path>
+          <path d="M12 20v-8"></path>
+          <path d="M17 20V8"></path>
+          <path d="M22 4v16"></path>
+        </svg>`,
+      rightel: `
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>`
+    };
+
+    // آیکون‌های کوچک SVG برای کارت‌های محصول بر اساس نوع سرویس
+    const itemBadges = {
+      follower: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>`,
+      view: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`,
+      like: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`,
+      comment: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>`,
+      member: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
+      data: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>`,
+      charge: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`
+    };
+
+    // داده‌های کامل تمام بخش‌ها و محصولات طبق درخواست کاربر
+    const servicesData = [
+      {
+        id: 'instagram',
+        title: 'بخش اینستاگرام',
+        subtitle: 'افزایش اعتبار و تعامل پیج اینستاگرام',
+        icon: categoryIcons.instagram,
+        accent: 'from-red-600 to-amber-500',
+        items: [
+          { name: 'فالوور ایرانی (هزار تا)', price: '190 هزار تومان', unit: 'هر ۱,۰۰۰ عدد', badge: 'follower' },
+          { name: 'فالوور خارجی (هزار تا)', price: '180 هزار تومان', unit: 'هر ۱,۰۰۰ عدد', badge: 'follower' },
+          { name: 'ویو / بازدید (هزار تا)', price: '30 هزار تومان', unit: 'هر ۱,۰۰۰ عدد', badge: 'view' },
+          { name: 'لایک (هزار تا)', price: '45 هزار تومان', unit: 'هر ۱,۰۰۰ عدد', badge: 'like' },
+          { name: 'کامنت (هزار تا)', price: '66 هزار تومان', unit: 'هر ۱,۰۰۰ عدد', badge: 'comment' }
+        ]
+      },
+      {
+        id: 'eitaa',
+        title: 'بخش ایتا',
+        subtitle: 'خدمات تخصصی کانال و گروه‌های ایتا',
+        icon: categoryIcons.eitaa,
+        accent: 'from-amber-500 to-red-600',
+        items: [
+          { name: 'ممبر گپ / گروه (هزار تا)', price: '120 هزار تومان', unit: 'هر ۱,۰۰۰ عضو', badge: 'member' },
+          { name: 'ممبر کانال (هزار تا)', price: '130 هزار تومان', unit: 'هر ۱,۰۰۰ عضو', badge: 'member' },
+          { name: 'بازدید (هزار تا)', price: '20 هزار تومان', unit: 'هر ۱,۰۰۰ بازدید', badge: 'view' }
+        ]
+      },
+      {
+        id: 'rubika',
+        title: 'بخش روبیکا',
+        subtitle: 'سرویس‌های کامل روبینو، کانال و گروه روبیکا',
+        icon: categoryIcons.rubika,
+        accent: 'from-yellow-400 to-red-600',
+        items: [
+          { name: 'ممبر گپ / گروه (هزار تا)', price: '70 هزار تومان', unit: 'هر ۱,۰۰۰ عضو', badge: 'member' },
+          { name: 'ممبر کانال (هزار تا)', price: '70 هزار تومان', unit: 'هر ۱,۰۰۰ عضو', badge: 'member' },
+          { name: 'بازدید (هزار تا)', price: '5 هزار تومان', unit: 'هر ۱,۰۰۰ بازدید', badge: 'view' },
+          { name: 'کامنت (هزار تا)', price: '45 هزار تومان', unit: 'هر ۱,۰۰۰ عدد', badge: 'comment' },
+          { name: 'لایک (هزار تا)', price: '15 هزار تومان', unit: 'هر ۱,۰۰۰ عدد', badge: 'like' },
+          { name: 'فالوور (هزار تا)', price: '168 هزار تومان', unit: 'هر ۱,۰۰۰ عدد', badge: 'follower' }
+        ]
+      },
+      {
+        id: 'telegram',
+        title: 'بخش تلگرام',
+        subtitle: 'افزایش اعضای کانال تلگرام با کیفیت عالی',
+        icon: categoryIcons.telegram,
+        accent: 'from-red-500 to-amber-400',
+        items: [
+          { name: 'ممبر / عضو کانال (هر هزار عدد)', price: '100 هزار تومان', unit: 'هر ۱,۰۰۰ عضو', badge: 'member' }
+        ]
+      },
+      {
+        id: 'internet',
+        title: 'بخش اینترنت',
+        subtitle: 'بسته‌های اینترنت پرسرعت با تعرفه اقتصادی',
+        icon: categoryIcons.internet,
+        accent: 'from-amber-400 to-red-500',
+        items: [
+          { name: 'بسته اینترنت 4 گیگ', price: '50 هزار تومان', unit: 'حجم ۴ گیگابایت', badge: 'data' },
+          { name: 'بسته اینترنت 6 گیگ', price: '70 هزار تومان', unit: 'حجم ۶ گیگابایت', badge: 'data' },
+          { name: 'بسته اینترنت 30 گیگ', price: '100 هزار تومان', unit: 'حجم ۳۰ گیگابایت', badge: 'data' },
+          { name: 'بسته اینترنت 60 گیگ', price: '125 هزار تومان', unit: 'حجم ۶۰ گیگابایت', badge: 'data' },
+          { name: 'بسته اینترنت 80 گیگ', price: '158 هزار تومان', unit: 'حجم ۸۰ گیگابایت', badge: 'data' }
+        ]
+      },
+      {
+        id: 'irancell',
+        title: 'بخش شارژ ایرانسل',
+        subtitle: 'شارژ مستقیم و سریع سیم‌کارت‌های ایرانسل',
+        icon: categoryIcons.irancell,
+        accent: 'from-yellow-400 to-amber-600',
+        items: [
+          { name: '20 هزار شارژ ایرانسل', price: '22 هزار تومان', unit: 'شارژ مستقیم', badge: 'charge' },
+          { name: '40 هزار شارژ ایرانسل', price: '44 هزار تومان', unit: 'شارژ مستقیم', badge: 'charge' },
+          { name: '100 هزار شارژ ایرانسل', price: '102 هزار تومان', unit: 'شارژ مستقیم', badge: 'charge' }
+        ]
+      },
+      {
+        id: 'mci',
+        title: 'بخش شارژ همراه اول',
+        subtitle: 'شارژ مستقیم سیم‌کارت‌های همراه اول',
+        icon: categoryIcons.mci,
+        accent: 'from-red-600 to-amber-500',
+        items: [
+          { name: '20 هزار شارژ همراه اول', price: '22 هزار تومان', unit: 'شارژ مستقیم', badge: 'charge' },
+          { name: '50 هزار شارژ همراه اول', price: '52 هزار تومان', unit: 'شارژ مستقیم', badge: 'charge' },
+          { name: '100 هزار شارژ همراه اول', price: '102 هزار تومان', unit: 'شارژ مستقیم', badge: 'charge' }
+        ]
+      },
+      {
+        id: 'rightel',
+        title: 'بخش شارژ رایتل',
+        subtitle: 'شارژ مستقیم سیم‌کارت‌های رایتل',
+        icon: categoryIcons.rightel,
+        accent: 'from-rose-600 to-yellow-400',
+        items: [
+          { name: '20 هزار شارژ رایتل', price: '22 هزار تومان', unit: 'شارژ مستقیم', badge: 'charge' },
+          { name: '50 هزار شارژ رایتل', price: '52 هزار تومان', unit: 'شارژ مستقیم', badge: 'charge' },
+          { name: '100 هزار شارژ رایتل', price: '102 هزار تومان', unit: 'شارژ مستقیم', badge: 'charge' },
+          { name: '200 هزار شارژ رایتل', price: '202 هزار تومان', unit: 'شارژ مستقیم', badge: 'charge' }
+        ]
+      }
+    ];
+
+    let activeFilter = 'all';
+
+    // رندر تب‌های فیلتر دسته‌بندی
+    function renderTabs() {
+      const tabsContainer = document.getElementById('category-tabs');
+      const allTab = `
+        <button onclick="setFilter('all')" class="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+          activeFilter === 'all'
+            ? 'bg-gradient-to-r from-red-600 to-amber-500 text-white shadow-lg shadow-red-600/30'
+            : 'bg-white/5 hover:bg-white/10 text-amber-100/80 border border-white/10'
+        }">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>همه خدمات</span>
+        </button>
+      `;
+
+      const categoryTabs = servicesData.map(cat => `
+        <button onclick="setFilter('${cat.id}')" class="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+          activeFilter === cat.id
+            ? 'bg-gradient-to-r from-red-600 to-amber-500 text-white shadow-lg shadow-red-600/30'
+            : 'bg-white/5 hover:bg-white/10 text-amber-100/80 border border-white/10'
+        }">
+          <span class="w-4 h-4 flex items-center justify-center [&>svg]:w-4 [&>svg]:h-4">${cat.icon}</span>
+          <span>${cat.title.replace('بخش ', '')}</span>
+        </button>
+      `).join('');
+
+      tabsContainer.innerHTML = allTab + categoryTabs;
+    }
+
+    // تغییر فیلتر و نمایش بخش‌ها
+    function setFilter(filterId) {
+      activeFilter = filterId;
+      renderTabs();
+      renderCatalog();
+    }
+
+    // رندر بخش‌ها و کارت‌های محصولات
+    function renderCatalog() {
+      const container = document.getElementById('catalog-container');
+      const filteredSections = activeFilter === 'all'
+        ? servicesData
+        : servicesData.filter(sec => sec.id === activeFilter);
+
+      container.innerHTML = filteredSections.map(section => `
+        <section id="sec-${section.id}" class="reveal-slow">
+          <!-- هدر بخش -->
+          <div class="flex items-center justify-between gap-4 mb-6 pb-3 border-b border-amber-400/15">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-br ${section.accent} p-0.5 shadow-lg shadow-red-600/20 shrink-0">
+                <div class="w-full h-full bg-[#150a0e] rounded-[14px] flex items-center justify-center text-amber-300">
+                  ${section.icon}
+                </div>
+              </div>
+              <div>
+                <h3 class="text-lg sm:text-xl font-black text-white">${section.title}</h3>
+                <p class="text-xs text-amber-100/60 mt-0.5">${section.subtitle}</p>
+              </div>
+            </div>
+            <span class="hidden sm:inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-400/10 text-amber-300 border border-amber-400/20">
+              ${section.items.length} سرویس فعال
+            </span>
+          </div>
+
+          <!-- گرید کارت‌های محصولات -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            ${section.items.map(item => `
+              <div class="glass-card rounded-3xl p-5 flex flex-col justify-between relative overflow-hidden group">
+                <!-- تزئین گوشه کارت -->
+                <div class="absolute -top-10 -left-10 w-24 h-24 rounded-full bg-gradient-to-br ${section.accent} opacity-10 group-hover:opacity-25 transition-opacity duration-700 pointer-events-none"></div>
+
+                <div>
+                  <div class="flex items-center justify-between gap-2 mb-3.5">
+                    <span class="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-xl bg-red-500/15 text-amber-300 border border-red-500/25">
+                      ${itemBadges[item.badge]}
+                      <span>${item.unit}</span>
+                    </span>
+                    <span class="w-2 h-2 rounded-full bg-amber-400/60 group-hover:bg-amber-400 transition-colors"></span>
+                  </div>
+
+                  <h4 class="text-base sm:text-lg font-extrabold text-white group-hover:text-amber-200 transition-colors leading-snug mb-4">
+                    ${item.name}
+                  </h4>
+                </div>
+
+                <div class="pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+                  <div>
+                    <span class="block text-[11px] text-amber-100/55">قیمت نهایی</span>
+                    <span class="text-base sm:text-lg font-black bg-gradient-to-l from-amber-300 to-yellow-500 bg-clip-text text-transparent">
+                      ${item.price}
+                    </span>
+                  </div>
+
+                  <button
+                    onclick="openPurchaseModal('${section.title.replace(/'/g, "\\'")}', '${item.name.replace(/'/g, "\\'")}', '${item.price.replace(/'/g, "\\'")}')"
+                    class="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-bold text-xs sm:text-sm shadow-md shadow-red-600/25 active:scale-95 transition-all cursor-pointer"
+                  >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                      <circle cx="9" cy="21" r="1"></circle>
+                      <circle cx="20" cy="21" r="1"></circle>
+                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span>خرید محصول</span>
+                  </button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+      `).join('');
+
+      // فعال‌سازی انیمیشن اسلوموشن ظاهر شدن هنگام اسکرول
+      initScrollReveal();
+    }
+
+    // باز کردن پاپ‌آپ خرید محصول
+    function openPurchaseModal(categoryTitle, productName, productPrice) {
+      const modal = document.getElementById('purchase-modal');
+      const modalBox = document.getElementById('modal-box');
+
+      document.getElementById('modal-category').textContent = categoryTitle;
+      document.getElementById('modal-product-name').textContent = productName;
+      document.getElementById('modal-product-price').textContent = productPrice;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      requestAnimationFrame(() => {
+        modal.classList.remove('opacity-0');
+        modalBox.classList.remove('scale-95');
+        modalBox.classList.add('scale-100');
+      });
+    }
+
+    // بستن پاپ‌آپ خرید محصول
+    function closeModal() {
+      const modal = document.getElementById('purchase-modal');
+      const modalBox = document.getElementById('modal-box');
+
+      modal.classList.add('opacity-0');
+      modalBox.classList.remove('scale-100');
+      modalBox.classList.add('scale-95');
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }, 300);
+    }
+
+    // بستن پاپ‌آپ با کلید Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // کپی کردن متن در کلیپ‌بورد با سازگاری کامل با iframe و موبایل
+    function copyText(text, message) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        document.execCommand('copy');
+        showToast(message);
+      } catch (err) {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(() => showToast(message));
+        }
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // نمایش اعلان Toast
+    let toastTimer;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.textContent = msg;
+
+      toast.classList.remove('opacity-0', 'translate-y-4');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-4');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 2800);
+    }
+
+    // مشاهده‌گر اسکرول برای انیمیشن اسلوموشن ظاهر شدن کارت‌ها
+    function initScrollReveal() {
+      const elements = document.querySelectorAll('.reveal-slow');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08 });
+
+      elements.forEach(el => observer.observe(el));
+    }
+
+    // اجرای اولیه صفحه
+    window.addEventListener('DOMContentLoaded', () => {
+      renderTabs();
+      renderCatalog();
+    });
+  </script>
+</body>
+</html>
